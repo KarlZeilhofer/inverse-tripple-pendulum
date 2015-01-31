@@ -5,6 +5,8 @@ This Qt-Application simulates and animates the motion of a 3-stick pendulum.
 The system is build up with a carret, constraint to horizontal movement. Then a chain of 3 sticks is mounted onto
 the carret. 
 
+The calculation of the model is done in wxMaxima. 
+
 # Features
 - user defined masses, lengths and inertias, springs, dampings
 - user defined initial coordinates
@@ -28,3 +30,8 @@ it is too instable for balancing any more.
 # TODO
 - calculate and print system-energy (if it should not increase with time, without any input)
 - improoved numerical stable solver (hopefuly there is no error in the model)
+
+# Compile
+I used Qt 4.8.6 \\
+qmake\\
+make
