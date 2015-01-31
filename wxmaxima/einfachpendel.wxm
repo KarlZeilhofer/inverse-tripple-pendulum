@@ -1,0 +1,105 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 11.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([q1,q2,q1p,q2p,q1pp,q2pp],t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rS1: transpose([q1,0,0]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rS2: transpose([q1+s2*sin(q2),-s2*cos(q2),0]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+vS1:diff(rS1,t,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+vS2: diff(rS2,t,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gVec: transpose([0,-g,0]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+T1: 1/2 * m1 * (vS1.vS1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+V1: 0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+T2 : 1/2 * m2 * (vS2.vS2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+V2: -m2*gVec.rS2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+T: T1+T2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+V: V1+V2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+q: transpose([q1,q2]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A1: transpose([diff(T,diff(q1,t)), diff(T,diff(q2,t))]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A: diff(A1,t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B: transpose([diff(T,q1), diff(T,q2)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+C: transpose([diff(V,q1), diff(V,q2)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Q: transpose([F,0]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+BGL: A-B+C;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ZR1: subst([diff(q1,t)=q1p, diff(q1,t,2)=diff(q1p,t), diff(q2,t)=q2p, diff(q2,t,2)=diff(q2p,t)], BGL);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+exp1: ZR1[1];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+glg1:solve(exp1=F,diff(q1p,t) );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+exp2: subst(diff(q1p,t)=q1pp, exp1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(exp2=F,q1pp);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

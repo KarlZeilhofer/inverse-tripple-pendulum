@@ -1,0 +1,300 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 11.04.0 ] */
+
+/* [wxMaxima: comment start ]
+Wagen mit 3-fach Pendel
+Modelliert ohne Dämpfung
+Karl Zeilhofer, 13.6.2011
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+HINWEIS: Spaltenvektoren werden hier fast immer als Zeilenvektoren dargestellt. 
+Dem entspechend sind auch oft die Jacobi-Matrizen transponiert.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(m1>0, m2>0, m3>0, m4>0, J2>0, J3>0, J4>0, g>0, s2>0, s3>0, s4>0, l2>0, l3>0, l4>0);
+declare(m1,real,m2,real,J2,real,s2,real,q1,real,q2,real);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Minimal Koordinaten: 
+q1: Absoluter Weg des Wagens
+q2: Absoluter Winkel des Pendels(2) (q2=0...Pendel hängt nach unten)
+q3: Absoluter Winkel des Pendels(3) (q3=0...Pendel hängt nach unten)
+q4: Absoluter Winkel des Pendels(4) (q4=0...Pendel hängt nach unten)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+q: ([q1,q2,q3,q4]);
+N: 4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([q1,q2,q3,q4],t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Ortsvektoren der Schwerpunkte:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+rS1: ([q1,0,0]);
+rS2: ([q1+s2*sin(q2),-s2*cos(q2),0]);
+rS3: ([q1+l2*sin(q2)+s3*sin(q3),-l2*cos(q2)-s3*cos(q3),0]);
+rS4: ([q1+l2*sin(q2)+l3*sin(q3)+s4*sin(q4),-l2*cos(q2)-l3*cos(q3)-s4*cos(q4),0]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Geschwindigkeitsvektoren der Schwerpunkte
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+vS1: diff(rS1,t,1);
+vS2: diff(rS2,t,1);
+vS3: diff(rS3,t,1);
+vS4: diff(rS4,t,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Gravitationsvektor
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+gVec: ([0,-g,0]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Kinetische Energie:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+T1: 1/2 * m1 * (vS1.vS1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+T2 : 1/2 * m2 * (vS2.vS2) + J2*(diff(q2,t))^2/2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+T3 : 1/2 * m3 * (vS3.vS3) + J3*(diff(q3,t))^2/2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+T2 : 1/2 * m4 * (vS4.vS4) + J4*(diff(q4,t))^2/2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+T: T1+T2+T3+T4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Potentielle Energie:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+V1: 0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+V2: -m2*gVec.rS2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+V3: -m3*gVec.rS3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+V4: -m4*gVec.rS4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+V: V1+V2+V3+V4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Lagrange Formalismus:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+L1: diff(jacobian([T],diff(q,t)), t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+L2: jacobian([T],q);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+L3: jacobian([V],q);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Linke Seite der Bewegungsgleichung:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+BGL_L: ratsimp(L1-L2+L3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+transpose(BGL_L);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Massenmatrix M:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+M: jacobian(BGL_L[1],diff(q,t,2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Gyromatrix C:
+mit anschließender Korrektur der Quadratischen Terme
+denn bei der Ableitung nach q-punkt kommt ein 2er nach vorne. der wird durch 1/2 kompensiert. 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+C: jacobian(BGL_L[1],diff(q,t,1));
+for n:1 thru N step 1 do (C: subst(diff(q[n],t)=1/2*diff(q[n],t), C)); 
+C;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Gravitationsanteil G: (Vektor)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+G: transpose(ratsimp(BGL_L-transpose(M.diff(q,t,2))-transpose(C.diff(q,t,1))));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Eingeprägte Kräfte Q:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Q: transpose([F,0,0,0]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+M auf invertierbarkeit überprüfen
+--> keine reelle Lösung gefunden --> M kann immer invertiert werden
+(das ergibt sich auch aus der Tatsache, dass die Massenmatrix positiv definit ist)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Aufbereitung der Matrizen für die Simulation:
+    Die Trägheitsmomente dürfen nicht Null sein, denn sonst ist M nicht invertierbar. 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+M;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+subst([diff(q1,t)=q1p, diff(q2,t)=q2p, diff(q3,t)=q3p, diff(q4,t)=q4p],C);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+subst([diff(q1,t)=q1p, diff(q2,t)=q2p, diff(q3,t)=q3p, diff(q4,t)=q4p],G);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: title   start ]
+Linearisierung um die obere Ruhelage
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: input   start ] */
+sub: [q1=0,q2=%pi, q3=%pi, q4=%pi, s2=l2/2, s3=l3/2, s4=l4/2, l2=1, l3=1, l4=1, m1=1, m2=1, m3=1, m4=1, J2=1, J3=1, J4=1, g=10];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Mlin: subst(sub,M);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(Mlin);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Clin: subst(sub,C);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Glin: subst(sub,jacobian(transpose(G)[1], q));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+P: Clin;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Q: Glin;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Zustandraummodell:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Az:transpose(append(transpose(append(zeromatrix(N,N),-invert(Mlin).Q)), transpose(append(ident(N),-invert(Mlin).P))));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+realpart(float(eigenvalues(Az)));
+imagpart(float(eigenvalues(Az)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Bz: append(transpose([0,0,0,0]),invert(Mlin).transpose([1,0,0,0]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Zustandsregelgesetz:
+Alle Eigenwerte bei -1
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: subsect start ]
+Überprüfung der Erreichbarkeit
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+MR: transpose(
+append(
+transpose(Bz), 
+transpose(Az.Bz),
+transpose(Az.Az.Bz),
+transpose(Az.Az.Az.Bz),
+transpose(Az.Az.Az.Az.Bz),
+transpose(Az.Az.Az.Az.Az.Bz),
+transpose(Az.Az.Az.Az.Az.Az.Bz),
+transpose(Az.Az.Az.Az.Az.Az.Az.Bz)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(MR);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rank(MR);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Die Erreichbarkeitsmatrix hat vollen Rang! sehr gut!
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+TDOO: Für den LQR Entwurf muss die Ricatti Gleichung gelöst werden
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+Rz: ident(8);
+Qz: ident(8);
+ricc: transpose(Az).Pz + Pz.Az -Pz.Bz.invert(Rz).transpose(Bz).Pz+Qz = zeromatrix(2*N,2*N);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
