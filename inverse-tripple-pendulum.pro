@@ -4,15 +4,15 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui widgets
 
-TARGET = Dreifachpendel_Animation
+TARGET = inverse-tripple-pendulum
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    matrix.cpp
+    	matrix.cpp
 
 HEADERS  += mainwindow.h \
     matrix.h

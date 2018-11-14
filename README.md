@@ -1,5 +1,6 @@
-# Dreifachpendel
+# Inverse Tripple Pendulum
 This Qt-Application simulates and animates the motion of a 3-stick pendulum. 
+![](screenshots/screenshot.png)
 
 # System
 The system is build up with a carret, constraint to horizontal movement. Then a chain of 3 sticks is mounted onto
@@ -29,9 +30,15 @@ it is too instable for balancing any more.
 
 # TODO
 - calculate and print system-energy (if it should not increase with time, without any input)
-- improoved numerical stable solver (hopefuly there is no error in the model)
+- improved numerical stable solver
 
-# Compile
-I used Qt 4.8.6 \\
-qmake\\
+# Compile & Run
+Tested with Qt5.9 on Linux Mint 19 (based on Ubuntu 18.04)
+```
+mkdir build
+cd build
+qmake ..
 make
+chmod +x inverse-tripple-pendulum 
+./inverse-tripple-pendulum 
+```

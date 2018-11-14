@@ -95,14 +95,16 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->pushButton_restart->animateClick(0);
 
 	l1 = 1;
-	wagen1 = scene->addRect(-l1/2, -l1/10, l1, l1/5, QPen(), QBrush(Qt::black));
-	wagen1->scale(M,M);
-	pendel2 = scene->addRect(-l2/10, -l2/2, l2/5, l2, QPen(), QBrush(Qt::darkBlue));
-	pendel2->scale(M,M);
-	pendel3 = scene->addRect(-l3/10, -l3/2, l3/5, l3, QPen(), QBrush(Qt::darkGreen));
-	pendel3->scale(M,M);
-	pendel4 = scene->addRect(-l4/10, -l4/2, l4/5, l4, QPen(), QBrush(Qt::darkRed));
-	pendel4->scale(M,M);
+	QPen pen;
+	pen.setWidth(0);
+	wagen1 = scene->addRect(-l1/2, -l1/10, l1, l1/5, pen, QBrush(Qt::black));
+	wagen1->setTransform(QTransform().scale(M,M));
+	pendel2 = scene->addRect(-l2/10, -l2/2, l2/5, l2, pen, QBrush(Qt::darkBlue));
+	pendel2->setTransform(QTransform().scale(M,M));
+	pendel3 = scene->addRect(-l3/10, -l3/2, l3/5, l3, pen, QBrush(Qt::darkGreen));
+	pendel3->setTransform(QTransform().scale(M,M));
+	pendel4 = scene->addRect(-l4/10, -l4/2, l4/5, l4, pen, QBrush(Qt::darkRed));
+	pendel4->setTransform(QTransform().scale(M,M));
 
 	timer = new QTimer();
 	dtFrames = 1.0/50.0;

@@ -3,3 +3,4 @@
  ui_*
  *.pro.user
  
+build/

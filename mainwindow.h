@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QtGui>
 #include "matrix.h"
+#include <QGraphicsScene>
 
 #define LOAD_SIM_DATA
 #undef LOAD_SIM_DATA
