@@ -333,11 +333,11 @@ Matrix Matrix::inv()
 {
 	Matrix inv(_rows, _columns);
 
-	// TODO: überprüfungen auf NULL
-	// überprüfen auf quadatisch
-	// zusätzlichen speicher reservieren für die einheitsmatrix rechts.
+	// TODO: Ã¼berprÃ¼fungen auf NULL
+	// Ã¼berprÃ¼fen auf quadatisch
+	// zusÃ¤tzlichen speicher reservieren fÃ¼r die einheitsmatrix rechts.
 
-	double **a; // speicher für die beiden matrizzen (originale und inverse)
+	double **a; // speicher fÃ¼r die beiden matrizzen (originale und inverse)
 	int n = _rows; //  dimension der Matrix
 
 	int   i, j;                    // Zeile, Spalte
@@ -350,7 +350,7 @@ Matrix Matrix::inv()
 	int pivot = 1;
 
 
-	// Speicher anlgen, der für beide Matrizen Plaz hat.
+	// Speicher anlgen, der fÃ¼r beide Matrizen Plaz hat.
 	a = new double*[n];
 	double * mem = new double[2*n*n];
 	for(i=0; i<n; i++){
@@ -358,7 +358,7 @@ Matrix Matrix::inv()
 		memcpy(a[i],data[i], n*sizeof(double)); // originale Matrix in diesen Speicher kopieren
 	}
 
-	// ergänze die Matrix a um eine Einheitsmatrix (rechts anhängen)
+	// ergÃ¤nze die Matrix a um eine Einheitsmatrix (rechts anhÃ¤ngen)
 	for (i = 0; i < n; i++) {
 		for (j = 0; j < n; j++)
 		{
@@ -371,8 +371,8 @@ Matrix Matrix::inv()
 	// die einzelnen Eliminationsschritte
 	s = 0;
 	do {
-		// Pivotisierung vermeidet unnötigen Abbruch bei einer Null in der Diagnonalen und
-		// erhöht die Rechengenauigkeit
+		// Pivotisierung vermeidet unnÃ¶tigen Abbruch bei einer Null in der Diagnonalen und
+		// erhÃ¶ht die Rechengenauigkeit
 		Maximum = fabs(a[s][s]);
 		if (pivot)
 		{
@@ -385,7 +385,7 @@ Matrix Matrix::inv()
 		}
 		fehler = (Maximum < Epsilon);
 
-		if (fehler) break;           // nicht lösbar
+		if (fehler) break;           // nicht lÃ¶sbar
 
 		if (pivot)
 		{
@@ -421,10 +421,10 @@ Matrix Matrix::inv()
 
 	if (fehler)
 	{
-		std::cout << ("Inverse: Matrix ist fast singulär oder singulär\n");
+		std::cout << ("Inverse: Matrix ist fast singulÃ¤r oder singulÃ¤r\n");
 		return Matrix();
 	}
-	// Die angehängte Einheitsmatrix Matrix hat sich jetzt in die inverse Matrix umgewandelt
+	// Die angehÃ¤ngte Einheitsmatrix Matrix hat sich jetzt in die inverse Matrix umgewandelt
 	// Umkopieren auf die Zielmatrix
 	for (i = 0; i < n; i++) {
 		for (j = 0; j < n; j++) {

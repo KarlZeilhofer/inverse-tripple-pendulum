@@ -12,9 +12,9 @@
 	Division durch Null in Fritzs Gauss-Algorithmus
 
 	25.6.2011
-	Simulation läuft bereits recht gut.
+	Simulation lÃ¤uft bereits recht gut.
 	Nun geht es noch darum, einen Zustandsregler zu implementieren.
-	Dieser benötigt die Lösung der Ricatti-Gleichung
+	Dieser benÃ¶tigt die LÃ¶sung der Ricatti-Gleichung
   */
 
 #include <QGraphicsRectItem>
@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+	setWindowTitle("Inverse Tripple Pendulum Simulator");
+	
 	scene = new QGraphicsScene(this);
 
 	N = 4; // zahl der minimal koordinaten
@@ -121,9 +123,9 @@ MainWindow::~MainWindow()
 }
 void MainWindow::initSolver()
 {
-	// Definition der 4 Körper
-	// Bildschirmgröße: 1200x900
-	M = 130; // Maßstab
+	// Definition der 4 KÃ¶rper
+	// BildschirmgrÃ¶ÃŸe: 1200x900
+	M = 130; // MaÃŸstab
 
     q0 = Matrix(N,1); // initial coordinates (springs are fixed to this position)
 	q_k = Matrix(N,1);
@@ -204,7 +206,7 @@ void MainWindow::redraw()
 	static Matrix q;
 	QPointF sceneP = ui->graphicsView->mapToScene(ui->graphicsView->cursor().pos());
 	xPosCursor = sceneP.x()/M;
-	double yPos = sceneP.y()/M - 1; // woher die verschiebung um 2 kommt, weiß ich nicht...
+	double yPos = sceneP.y()/M - 1; // woher die verschiebung um 2 kommt, weiÃŸ ich nicht...
 
 	if(!activeMouse)
 	{
@@ -270,7 +272,7 @@ Matrix MainWindow::solverStep()
 	qRef(0)=0;qRef(1)=M_PI;qRef(2)=M_PI;qRef(3)=M_PI;
 	regulator(0)=0; regulator(1)=2; regulator(2)=-2; regulator(3)=2;
 
-    // Eingeprägte Kräfte
+    // EingeprÃ¤gte KrÃ¤fte
     Q = Q_m; // set to motor forces
     //Q.setTo(0);
 
@@ -300,7 +302,7 @@ Matrix MainWindow::solverStep()
     Q = Q - Matrix::dotMul(delta_q, springs);
 
 	if(ui->checkBox->isChecked()){
-		Q(0) = Q(0) + (xPosCursor - q(0))*10000  + -qp(0)*100; // steuerung per Maus mit Feder zum Cursor und Dämpfer gegen den Ursprung
+		Q(0) = Q(0) + (xPosCursor - q(0))*10000  + -qp(0)*100; // steuerung per Maus mit Feder zum Cursor und DÃ¤mpfer gegen den Ursprung
 	}else if(ui->checkBox_regulatorOn->isChecked()){
 		Q(0) = -100*(regulator*(q-qRef))(0); // proportional regulator
 	}
@@ -320,13 +322,13 @@ Matrix MainWindow::solverStep()
 	q_k = q;
 	K1_q = qp_k; // Steigung aus aktueller Ableitung
 	K1_qp = qpp_k; // Steigung aus aktueller Ableitung
-	qp_kp1 = qp_k + dt*K1_qp; // vorläufige Schätzung für qp(k+1)
-	q_kp1 = q_k + dt*K1_q; // vorläufige Schätzung für q(k+1)
-	qpp_kp1 = M_inv(q_kp1)*(Q - C_mat(q_kp1,qp_kp1)*qp_kp1 - G_vec(q_kp1)); // vorläufige Schätzung für qpp(k+1)
-	K2_qp = qpp_kp1; // Steigung aus Ableitungsschätzung qpp(k+1)
-	K2_q = qp_kp1; // Steigung aus Ableitungsschätzung qp(k+1)
-	qp_kp1 = qp_k + dt*1/2*(K1_qp+K2_qp); // endgültiger Wert für qp(k+1)
-	q_kp1 = q_k + dt*1/2*(K1_q+K2_q); // endgültiger Wert für q(k+1)
+	qp_kp1 = qp_k + dt*K1_qp; // vorlÃ¤ufige SchÃ¤tzung fÃ¼r qp(k+1)
+	q_kp1 = q_k + dt*K1_q; // vorlÃ¤ufige SchÃ¤tzung fÃ¼r q(k+1)
+	qpp_kp1 = M_inv(q_kp1)*(Q - C_mat(q_kp1,qp_kp1)*qp_kp1 - G_vec(q_kp1)); // vorlÃ¤ufige SchÃ¤tzung fÃ¼r qpp(k+1)
+	K2_qp = qpp_kp1; // Steigung aus AbleitungsschÃ¤tzung qpp(k+1)
+	K2_q = qp_kp1; // Steigung aus AbleitungsschÃ¤tzung qp(k+1)
+	qp_kp1 = qp_k + dt*1/2*(K1_qp+K2_qp); // endgÃ¼ltiger Wert fÃ¼r qp(k+1)
+	q_kp1 = q_k + dt*1/2*(K1_q+K2_q); // endgÃ¼ltiger Wert fÃ¼r q(k+1)
 
 	q = q_kp1;
 	qp = qp_kp1;

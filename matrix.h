@@ -1,6 +1,6 @@
 /*
   Einfache Matrizzen Klasse
-  Für Berechnungen in der linearen Algebra
+  FÃ¼r Berechnungen in der linearen Algebra
   Karl Zeilhofer
 
 	18.6.2011:
@@ -10,13 +10,13 @@
 			Transponierung geht auch
 
 	19.6.2011
-		Copy Construktor hinzugefügt, für tiefe speicher kopie
+		Copy Construktor hinzugefÃ¼gt, fÃ¼r tiefe speicher kopie
 		Copy Assignment Operator implementiert
 
 	20.6.2011
 		Um dem Speicherleck auf die Spur zu kommen, wurden alle
-			Methoden auf Pass und Return by Value geändert. Brachte leider keine Verbesserung.
-		Zugriff durch nur einen Index für den ()-Operator
+			Methoden auf Pass und Return by Value geÃ¤ndert. Brachte leider keine Verbesserung.
+		Zugriff durch nur einen Index fÃ¼r den ()-Operator
 			zB A(1)=5;
 			bei Vektoren kann somit ein falsches Indizieren vermieden werden.
 			Eine Matrix wird mit nur einem Index Spaltenweise durchwandert
@@ -32,7 +32,7 @@
 
 
    TODOs:
-		Geschickte initialisierung für Vektoren und Matrizzen
+		Geschickte initialisierung fÃ¼r Vektoren und Matrizzen
 			evt. mit variabler Argumentenliste
 		Punktweises Multiplizieren und Dividieren muss noch implementiert werden.
 		Fehlerbehandlung
@@ -44,10 +44,10 @@
 			sin, cos, tan, exp, pow, sum, mean, std,
 			size, length, selection like in matlab
 			datei ein und ausgabe
-		Dynamisches vergrößern der matrix
+		Dynamisches vergrÃ¶ÃŸern der matrix
 
 		Speicherleck stopfen!
-		Exceptions einführen
+		Exceptions einfÃ¼hren
 			Evt. eine eigene Log-Datei anlegen.
 		Verbesserte Ausgabe
 */
